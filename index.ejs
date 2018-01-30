@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+</head>
+
+<body>
+  <div class="content">
+    <svg class="canvas" />
+    <h1>Polygon Centroid Viewer</h1>
+    <div class="legend">
+      <section>
+        <svg viewBox="0 0 10 10" class="cross-icon">
+          <path class="centroid" d="M0,0,L10,10M0,10L10,0"></path>
+        </svg>
+        Polygon centroid
+      </section>
+      <section>
+        <svg viewBox="0 0 10 10" class="cross-icon">
+          <path class="hull-centroid" d="M0,0,L10,10M0,10L10,0"></path>
+        </svg>
+        Convex hull centroid
+      </section>
+    </div>
+  </div>
+</body>
+
+</html>
