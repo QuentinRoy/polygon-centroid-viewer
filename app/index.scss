@@ -1,3 +1,22 @@
+$point-size: 6;
+$point-color: #000;
+$hovered-point-size: $point-size + 2;
+$hovered-point-color: rgb(180, 46, 5);
+$dragged-point-size: $hovered-point-size;
+$dragged-point-color: rgb(65, 124, 161);
+
+$area-fill-color: rgb(238, 238, 238);
+$area-stroke-color: rgb(63, 63, 63);
+$area-stroke-width: 2;
+
+$centroid-color: rgba(167, 20, 20, 0.8);
+$hull-centroid-color: rgba(20, 167, 64, 0.8);
+
+$add-feed-forward-color: rgba(143, 212, 255, 0.8);
+$add-feed-forward-stroke-width: 1;
+$remove-feed-forward-color: rgba(211, 76, 76, 0.8);
+$remove-feed-forward-stroke-width: $add-feed-forward-stroke-width;
+
 // Apply a natural box layout model to all elements
 // but allowing components to change
 // http://www.paulirish.com/2012/box-sizing-border-box-ftw/
@@ -22,6 +41,7 @@ h1 {
 
 .content,
 .canvas {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   top: 0;
   position: absolute;
   height: 100%;
@@ -31,54 +51,54 @@ h1 {
 }
 
 .point {
-  r: 4;
-  fill: #000;
+  r: $point-size;
+  fill: $point-color;
   cursor: pointer;
 
   &:hover {
-    r: 5;
-    fill: rgb(180, 46, 5);
+    r: $hovered-point-size;
+    fill: $hovered-point-color;
   }
 
   &.dragged {
-    r: 5;
-    fill: rgb(55, 93, 117);
+    r: $dragged-point-size;
+    fill: $dragged-point-color;
   }
 }
 
 .area {
-  fill: rgb(230, 228, 228);
-  stroke: rgb(104, 104, 104);
-}
-
-.centroid {
-  fill: none;
-  stroke: rgba(167, 20, 20, 0.8);
-}
-
-.hull-centroid {
-  fill: none;
-  stroke: rgba(20, 167, 64, 0.8);
+  fill: $area-fill-color;
+  stroke: $area-stroke-color;
+  stroke-width: $area-stroke-width;
 }
 
 .centroid,
 .hull-centroid {
-  r: 3;
+  fill: none;
   &.hidden {
     stroke: none;
   }
 }
 
-.add-feed-forward,
-.remove-feed-forward {
-  stroke: rgb(75, 124, 156);
-  stroke-dasharray: 2, 2;
-  stroke-width: 1;
+.centroid {
+  stroke: $centroid-color;
+}
+
+.hull-centroid {
+  stroke: $hull-centroid-color;
+}
+
+.add-feed-forward {
   fill: none;
+  stroke: $add-feed-forward-color;
+  stroke-width: $add-feed-forward-stroke-width;
 }
 
 .remove-feed-forward {
-  stroke: rgb(141, 80, 80);
+  fill: none;
+  stroke-dasharray: 2, 2;
+  stroke: $remove-feed-forward-color;
+  stroke-width: $remove-feed-forward-stroke-width;
 }
 
 .legend {
@@ -86,8 +106,8 @@ h1 {
   right: 2em;
   bottom: 2em;
   .cross-icon {
-    width: .7em;
-    height: .7em;
-    margin-right: .3em;
+    width: 0.7em;
+    height: 0.7em;
+    margin-right: 0.3em;
   }
 }
