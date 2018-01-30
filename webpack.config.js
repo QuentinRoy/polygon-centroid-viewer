@@ -17,7 +17,6 @@ module.exports = {
 
   output: {
     path: dirDist,
-    publicPath: "/",
     filename: "[name].js"
   },
 
