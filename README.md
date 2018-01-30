@@ -1,6 +1,10 @@
 # Polygon Centroid Viewer
 
-This is a small application to create polygons and view its centroid.
+A small application to create polygons and view their centroids.
+
+## Demo
+
+[https://quentinroy.fr/misc/polygon](https://quentinroy.fr/misc/polygon)
 
 ## Install
 

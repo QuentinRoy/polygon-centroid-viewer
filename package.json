@@ -4,14 +4,14 @@
   "description": "Show the centroid of any non-self non-self-intersecting closed polygon.",
   "author": "Quentin Roy <quentin@quentinroy.fr>",
   "license": "MIT",
-  "homepage": "https://github.com/QuentinRoy/polygon-centroid-viewer",
+  "homepage": "https://quentinroy.fr/misc/polygon",
   "scripts": {
     "dev": "webpack-dev-server --progress --config webpack.config.dev.js",
     "build": "webpack --progress --config webpack.config.build.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://cvgellhorn@github.com/QuentinRoy/polygon-centroid-viewer.git"
+    "url": "https://github.com/QuentinRoy/polygon-centroid-viewer.git"
   },
   "private": true,
   "dependencies": {

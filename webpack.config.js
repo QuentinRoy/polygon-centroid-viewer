@@ -6,6 +6,8 @@ const dirApp = path.join(__dirname, "app");
 const dirDist = path.join(__dirname, "dist");
 
 const appHtmlTitle = "Polygon Centroid Viewer";
+const repositoryAddress =
+  "https://github.com/QuentinRoy/polygon-centroid-viewer";
 
 /**
  * Webpack Configuration
@@ -23,7 +25,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "index.ejs"),
-      title: appHtmlTitle
+      title: appHtmlTitle,
+      repositoryAddress
     }),
     new ExtractTextPlugin("styles.css")
   ],
