@@ -115,6 +115,7 @@ const pointClicked = d => {
 const pointDrag = drag()
   .on("start", function() {
     removeFeedForward.attr("d", "");
+    addFeedForward.attr("d", "");
     select(this).classed("dragged", true);
   })
   .on("drag", function(d) {
