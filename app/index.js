@@ -234,8 +234,13 @@ canvas.on("click", function() {
 });
 
 // eslint-disable-next-line func-names
-canvas.on("mousemove", function() {
-  updateAddFeedForward(mouse(this));
-});
+canvas
+  .on("mousemove", function() {
+    updateAddFeedForward(mouse(this));
+  })
+  .on("mouseout", () => {
+    addFeedForward.attr("d", "");
+    removeFeedForward.attr("d", "");
+  });
 
 update(polygonPoints);
