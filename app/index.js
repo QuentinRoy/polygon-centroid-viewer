@@ -3,7 +3,12 @@ import { select, mouse, event } from "d3-selection";
 import { line, curveLinearClosed } from "d3-shape";
 import { polygonCentroid, polygonHull } from "d3-polygon";
 import { drag } from "d3-drag";
-import { segmentDist, angle, createIdGenerator } from "./utils";
+import {
+  segmentDist,
+  angle,
+  createIdGenerator,
+  segmentIntersect
+} from "./utils";
 import "./index.scss";
 
 let polygonPoints = [];
@@ -80,6 +85,30 @@ const findBestInsertionIndex = (coords, points) => {
   );
 };
 
+// Check if a polygon is self intersecting.
+const isSelfIntersecting = points => {
+  const n = points.length;
+  return points.find((seg1Start, i) => {
+    const seg1End = points[(i + 1) % n];
+    const maxJ = i === 0 ? n - 1 : n;
+    for (let j = i + 2; j < maxJ; j += 1) {
+      const seg2Start = points[j];
+      const seg2End = points[(j + 1) % n];
+      if (
+        segmentIntersect(
+          seg1Start.coords,
+          seg1End.coords,
+          seg2Start.coords,
+          seg2End.coords
+        )
+      ) {
+        return true;
+      }
+    }
+    return false;
+  });
+};
+
 const updateAddFeedForward = coordinates => {
   if (polygonPoints.length === 0) {
     addFeedForward.attr("d", "");
@@ -135,7 +164,7 @@ const pointDrag = drag()
   });
 
 updatePolygonCentroid = data => {
-  if (data.length < 3) {
+  if (data.length < 3 || isSelfIntersecting(polygonPoints)) {
     polygonCentroidPath.classed("hidden", true);
   } else {
     polygonCentroidPath.classed("hidden", false);
@@ -195,7 +224,10 @@ update = data => {
 };
 
 const getNewPointId = createIdGenerator();
-const createPoint = (...coords) => ({ id: getNewPointId(), coords });
+const createPoint = coords => ({
+  id: getNewPointId(),
+  coords
+});
 
 // eslint-disable-next-line func-names
 canvas.on("click", function() {
@@ -204,7 +236,7 @@ canvas.on("click", function() {
   removeFeedForward.attr("d", "");
   const coords = mouse(this);
   const i = findBestInsertionIndex(coords, polygonPoints);
-  polygonPoints.splice(i, 0, createPoint(...coords));
+  polygonPoints.splice(i, 0, createPoint(coords));
   update(polygonPoints);
 });
 
