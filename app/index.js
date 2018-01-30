@@ -1,14 +1,9 @@
 /* eslint-disable func-names */
-import {
-  select,
-  mouse,
-  line,
-  curveLinearClosed,
-  polygonCentroid,
-  polygonHull,
-  event,
-  drag
-} from "d3";
+import { select, mouse, event } from "d3-selection";
+import { line, curveLinearClosed } from "d3-shape";
+import { polygonCentroid, polygonHull } from "d3-polygon";
+import { drag } from "d3-drag";
+
 import "./index.scss";
 
 let polygonPoints = [];
