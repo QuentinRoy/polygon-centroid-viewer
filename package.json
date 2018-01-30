@@ -1,6 +1,6 @@
 {
   "name": "polygon-centroid-calculator",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Show the centroid of any non-self non-self-intersecting closed polygon.",
   "author": "Quentin Roy <quentin@quentinroy.fr>",
   "license": "MIT",
