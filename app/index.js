@@ -3,10 +3,11 @@ import { select, mouse, event } from "d3-selection";
 import { line, curveLinearClosed } from "d3-shape";
 import { polygonCentroid, polygonHull } from "d3-polygon";
 import { drag } from "d3-drag";
-
+import { segmentDist, angle, createIdGenerator } from "./utils";
 import "./index.scss";
 
 let polygonPoints = [];
+
 let update;
 let updatePolygonPath;
 let updatePolygonCentroid;
@@ -17,35 +18,28 @@ const canvas = select(".canvas");
 // prettier-ignore
 const polygon = canvas.append("g")
   .classed("polygon", true);
-
 // prettier-ignore
 const polygonPath = polygon.append("path")
   .classed("area", true);
-
 // prettier-ignore
 const addFeedForward = polygon.append("path")
   .classed("add-feed-forward", true);
-
 // prettier-ignore
 const removeFeedForward = polygon.append("path")
   .classed("remove-feed-forward", true);
-
 // prettier-ignore
 const polygonPointsGroup = polygon.append("g")
   .classed("points", true);
-
 // prettier-ignore
 const measures = canvas.append("g")
   .classed("measures", true);
-
-const polygonHullCentroidPath = measures
-  .append("path")
+// prettier-ignore
+const polygonHullCentroidPath = measures.append("path")
   .classed("hull-centroid", true)
   .classed("hidden", true)
   .attr("d", "M0,0,L10,10M0,10L10,0");
-
-const polygonCentroidPath = measures
-  .append("path")
+// prettier-ignore
+const polygonCentroidPath = measures.append("path")
   .classed("centroid", true)
   .classed("hidden", true)
   .attr("d", "M0,0,L10,10M0,10L10,0");
@@ -56,24 +50,6 @@ const pathFunction = line()
   .y(d => d.coords[1])
   .curve(curveLinearClosed);
 
-// Find the closest point from p on the segment defined by sp1 and sp2.
-const closestPointOnSegment = (sp1, sp2, p) => {
-  const x10 = sp2[0] - sp1[0];
-  const y10 = sp2[1] - sp1[1];
-  const x20 = p[0] - sp1[0];
-  const y20 = p[1] - sp1[1];
-  const t = (x20 * x10 + y20 * y10) / (x10 * x10 + y10 * y10);
-  if (t <= 0) return sp1;
-  if (t >= 1) return sp2;
-  return [sp1[0] + t * x10, sp1[1] + t * y10];
-};
-// Calculate the distance from a point to another.
-const dist = ([x1, y1], [x2, y2]) => Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
-// Calculate the distance from a point to a segment.
-const segmentDist = (sp1, sp2, p) => {
-  const closest = closestPointOnSegment(sp1, sp2, p);
-  return dist(closest, p);
-};
 // Find the best insertion insertion index for a new point defined by coords
 // in the polygon. The best insertion index is after the first point of the
 // closest segment.
@@ -87,6 +63,13 @@ const findBestInsertionIndex = (coords, points) => {
         const p2 = points[i + 1];
         const d = segmentDist(p1.coords, p2.coords, coords);
         if (d < res.minDist) return { i, minDist: d };
+        if (d === res.minDist) {
+          const resP1 = points[res.i];
+          const resP2 = points[(res.i + 1) % points.length];
+          const resAngle = angle(resP1.coords, coords, resP2.coords);
+          const currentAngle = angle(p1.coords, coords, p2.coords);
+          if (currentAngle > resAngle) return { i, minDist: d };
+        }
         return res;
       },
       {
@@ -130,13 +113,13 @@ const pointClicked = d => {
 };
 
 const pointDrag = drag()
-  // .origin(d => ({ x: d.x, y: d.y }))
   .on("start", function() {
     removeFeedForward.attr("d", "");
     select(this).classed("dragged", true);
   })
   .on("drag", function(d) {
     removeFeedForward.attr("d", "");
+    addFeedForward.attr("d", "");
     d.coords = [event.x, event.y]; // eslint-disable-line
     select(this)
       .attr("cx", d.coords[0])
@@ -210,12 +193,8 @@ update = data => {
   updatePolygonCentroid(data);
 };
 
-let nextId = 0;
-const createPoint = (...coords) => {
-  const p = { id: nextId, coords };
-  nextId += 1;
-  return p;
-};
+const getNewPointId = createIdGenerator();
+const createPoint = (...coords) => ({ id: getNewPointId(), coords });
 
 // eslint-disable-next-line func-names
 canvas.on("click", function() {
@@ -230,6 +209,9 @@ canvas.on("click", function() {
 
 // eslint-disable-next-line func-names
 canvas
+  .on("mouseover", function() {
+    updateAddFeedForward(mouse(this));
+  })
   .on("mousemove", function() {
     updateAddFeedForward(mouse(this));
   })
