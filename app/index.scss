@@ -1,13 +1,13 @@
-$point-size: 6;
-$point-color: #000;
-$hovered-point-size: $point-size + 2;
-$hovered-point-color: rgb(180, 46, 5);
-$dragged-point-size: $hovered-point-size;
-$dragged-point-color: rgb(65, 124, 161);
+$vertex-size: 6;
+$vertex-color: #000;
+$hovered-vertex-size: $vertex-size + 2;
+$hovered-vertex-color: rgb(180, 46, 5);
+$dragged-vertex-size: $hovered-vertex-size;
+$dragged-vertex-color: rgb(65, 124, 161);
 
-$area-fill-color: rgb(238, 238, 238);
-$area-stroke-color: rgb(63, 63, 63);
-$area-stroke-width: 2;
+$polygon-fill-color: rgb(238, 238, 238);
+$polygon-stroke-color: rgb(63, 63, 63);
+$polygon-stroke-width: 2;
 
 $centroid-color: rgba(167, 20, 20, 0.8);
 $hull-centroid-color: rgba(20, 167, 64, 0.8);
@@ -50,26 +50,26 @@ h1 {
   cursor: crosshair;
 }
 
-.point {
-  r: $point-size;
-  fill: $point-color;
+.vertex {
+  r: $vertex-size;
+  fill: $vertex-color;
   cursor: pointer;
 
   &:hover {
-    r: $hovered-point-size;
-    fill: $hovered-point-color;
+    r: $hovered-vertex-size;
+    fill: $hovered-vertex-color;
   }
 
   &.dragged {
-    r: $dragged-point-size;
-    fill: $dragged-point-color;
+    r: $dragged-vertex-size;
+    fill: $dragged-vertex-color;
   }
 }
 
 .area {
-  fill: $area-fill-color;
-  stroke: $area-stroke-color;
-  stroke-width: $area-stroke-width;
+  fill: $polygon-fill-color;
+  stroke: $polygon-stroke-color;
+  stroke-width: $polygon-stroke-width;
 }
 
 .centroid,

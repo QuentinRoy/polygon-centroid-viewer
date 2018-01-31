@@ -7,11 +7,11 @@ import {
   segmentDist,
   angle,
   createIdGenerator,
-  segmentIntersect
+  isPolygonSelfIntersecting
 } from "./utils";
 import "./index.scss";
 
-let polygonPoints = [];
+let polygonVertexes = [];
 
 let update;
 let updatePolygonPath;
@@ -33,8 +33,8 @@ const addFeedForward = polygon.append("path")
 const removeFeedForward = polygon.append("path")
   .classed("remove-feed-forward", true);
 // prettier-ignore
-const polygonPointsGroup = polygon.append("g")
-  .classed("points", true);
+const polygonVertexesGroup = polygon.append("g")
+  .classed("vertexes", true);
 // prettier-ignore
 const measures = canvas.append("g")
   .classed("measures", true);
@@ -58,90 +58,77 @@ const pathFunction = line()
 // Find the best insertion insertion index for a new point defined by coords
 // in the polygon. The best insertion index is after the first point of the
 // closest segment.
-const findBestInsertionIndex = (coords, points) => {
-  const n = polygonPoints.length;
+const findBestInsertionIndex = (coords, vertexes) => {
+  const n = polygonVertexes.length;
   if (n < 3) return n;
+  // Check the distance from each segment and find the closest.
   return (
-    points.reduce(
+    vertexes.reduce(
       (res, p1, i) => {
         if (i + 1 >= n) return res;
-        const p2 = points[i + 1];
+        const p2 = vertexes[i + 1];
         const d = segmentDist(p1.coords, p2.coords, coords);
-        if (d < res.minDist) return { i, minDist: d };
-        if (d === res.minDist) {
-          const resP1 = points[res.i];
-          const resP2 = points[(res.i + 1) % points.length];
+        if (d < res.minD)
+          return {
+            i,
+            minD: d
+          };
+        // In case of equality (happens often if the closest point is a vertex
+        // look for the position that would create the largest angle).
+        if (d === res.minD) {
+          const resP1 = vertexes[res.i];
+          const resP2 = vertexes[(res.i + 1) % vertexes.length];
           const resAngle = angle(resP1.coords, coords, resP2.coords);
           const currentAngle = angle(p1.coords, coords, p2.coords);
-          if (currentAngle > resAngle) return { i, minDist: d };
+          if (currentAngle > resAngle)
+            return {
+              i,
+              minD: d
+            };
         }
         return res;
       },
       {
-        minDist: segmentDist(points[0].coords, points[n - 1].coords, coords),
+        minD: segmentDist(vertexes[0].coords, vertexes[n - 1].coords, coords),
         i: n - 1
       }
     ).i + 1
   );
 };
 
-// Check if a polygon is self intersecting.
-const isSelfIntersecting = points => {
-  const n = points.length;
-  return points.find((seg1Start, i) => {
-    const seg1End = points[(i + 1) % n];
-    const maxJ = i === 0 ? n - 1 : n;
-    for (let j = i + 2; j < maxJ; j += 1) {
-      const seg2Start = points[j];
-      const seg2End = points[(j + 1) % n];
-      if (
-        segmentIntersect(
-          seg1Start.coords,
-          seg1End.coords,
-          seg2Start.coords,
-          seg2End.coords
-        )
-      ) {
-        return true;
-      }
-    }
-    return false;
-  });
-};
-
 const updateAddFeedForward = coordinates => {
-  if (polygonPoints.length === 0) {
+  if (polygonVertexes.length === 0) {
     addFeedForward.attr("d", "");
-  } else if (polygonPoints.length === 1) {
-    addFeedForward.attr("d", `M${polygonPoints[0].coords}L${coordinates}`);
+  } else if (polygonVertexes.length === 1) {
+    addFeedForward.attr("d", `M${polygonVertexes[0].coords}L${coordinates}`);
   } else {
-    const i = findBestInsertionIndex(coordinates, polygonPoints) - 1;
-    const sp1 = polygonPoints[i];
-    const sp2 = polygonPoints[(i + 1) % polygonPoints.length];
+    const i = findBestInsertionIndex(coordinates, polygonVertexes) - 1;
+    const sp1 = polygonVertexes[i];
+    const sp2 = polygonVertexes[(i + 1) % polygonVertexes.length];
     addFeedForward.attr("d", `M${sp1.coords}L${coordinates}L${sp2.coords}`);
   }
 };
 
-const updateRemoveFeedForward = currentPointI => {
-  if (polygonPoints.length < 4) {
+const updateRemoveFeedForward = currentVertexIndex => {
+  if (polygonVertexes.length < 4) {
     removeFeedForward.attr("d", "");
   } else {
-    const n = polygonPoints.length;
-    const prev = polygonPoints[(currentPointI - 1 + n) % n];
-    const next = polygonPoints[(currentPointI + 1) % n];
+    const n = polygonVertexes.length;
+    const prev = polygonVertexes[(currentVertexIndex - 1 + n) % n];
+    const next = polygonVertexes[(currentVertexIndex + 1) % n];
     removeFeedForward.attr("d", `M${prev.coords}L${next.coords}`);
   }
 };
 
-const pointClicked = d => {
+const vertexClicked = d => {
   removeFeedForward.attr("d", "");
   event.stopPropagation();
-  polygonPoints = polygonPoints.filter(p => p !== d);
-  update(polygonPoints);
+  polygonVertexes = polygonVertexes.filter(p => p !== d);
+  update(polygonVertexes);
   updateAddFeedForward([event.x, event.y]);
 };
 
-const pointDrag = drag()
+const vertexDrag = drag()
   .on("start", function() {
     removeFeedForward.attr("d", "");
     addFeedForward.attr("d", "");
@@ -154,17 +141,20 @@ const pointDrag = drag()
     select(this)
       .attr("cx", d.coords[0])
       .attr("cy", d.coords[1]);
-    updatePolygonPath(polygonPoints);
-    updatePolygonCentroid(polygonPoints);
-    updatePolygonHullCentroid(polygonPoints);
+    updatePolygonPath(polygonVertexes);
+    updatePolygonCentroid(polygonVertexes);
+    updatePolygonHullCentroid(polygonVertexes);
   })
   .on("end", function(d) {
     select(this).classed("dragged", false);
-    updateRemoveFeedForward(polygonPoints.indexOf(d));
+    updateRemoveFeedForward(polygonVertexes.indexOf(d));
   });
 
 updatePolygonCentroid = data => {
-  if (data.length < 3 || isSelfIntersecting(polygonPoints)) {
+  if (
+    data.length < 3 ||
+    isPolygonSelfIntersecting(polygonVertexes.map(v => v.coords))
+  ) {
     polygonCentroidPath.classed("hidden", true);
   } else {
     polygonCentroidPath.classed("hidden", false);
@@ -183,25 +173,21 @@ updatePolygonHullCentroid = data => {
   }
 };
 
-// prettier-ignore
 updatePolygonPath = data => {
-  polygonPath
-    .attr("d", pathFunction(data));
+  polygonPath.attr("d", pathFunction(data));
 };
 
 // prettier-ignore
-const updatePolygonPoints = data => {
-  const points = polygonPointsGroup.selectAll(".point")
-    .data(data, d => d.id);
+const updatePolygonVertexes = vertexData => {
+  const vertexes = polygonVertexesGroup.selectAll(".vertex")
+    .data(vertexData, d => d.id);
 
-  points.exit().remove();
-
-  points.enter()
+  vertexes.enter()
     .append("circle")
-      .attr("class", "point")
-      .on("click", pointClicked)
+      .classed("vertex", true)
+      .on("click", vertexClicked)
       .on("mouseover", (d) => {
-        updateRemoveFeedForward(polygonPoints.indexOf(d));
+        updateRemoveFeedForward(polygonVertexes.indexOf(d));
       })
       .on("mouseout", () => {
         removeFeedForward.attr("d", "");
@@ -210,22 +196,25 @@ const updatePolygonPoints = data => {
         event.stopPropagation()
         addFeedForward.attr("d", "");
       })
-      .call(pointDrag)
-    .merge(points)
+      .call(vertexDrag)
+    .merge(vertexes)
       .attr("cx", d => d.coords[0])
       .attr("cy", d => d.coords[1]);
+
+  vertexes.exit().remove();
+
 };
 
-update = data => {
-  updatePolygonPath(data);
-  updatePolygonPoints(data);
-  updatePolygonHullCentroid(data);
-  updatePolygonCentroid(data);
+update = vertexData => {
+  updatePolygonPath(vertexData);
+  updatePolygonVertexes(vertexData);
+  updatePolygonHullCentroid(vertexData);
+  updatePolygonCentroid(vertexData);
 };
 
-const getNewPointId = createIdGenerator();
-const createPoint = coords => ({
-  id: getNewPointId(),
+const getNewVertexId = createIdGenerator();
+const createVertex = coords => ({
+  id: getNewVertexId(),
   coords
 });
 
@@ -235,9 +224,9 @@ canvas.on("click", function() {
   addFeedForward.attr("d", "");
   removeFeedForward.attr("d", "");
   const coords = mouse(this);
-  const i = findBestInsertionIndex(coords, polygonPoints);
-  polygonPoints.splice(i, 0, createPoint(coords));
-  update(polygonPoints);
+  const i = findBestInsertionIndex(coords, polygonVertexes);
+  polygonVertexes.splice(i, 0, createVertex(coords));
+  update(polygonVertexes);
 });
 
 // eslint-disable-next-line func-names
@@ -253,4 +242,4 @@ canvas
     removeFeedForward.attr("d", "");
   });
 
-update(polygonPoints);
+update(polygonVertexes);

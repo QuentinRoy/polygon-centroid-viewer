@@ -83,3 +83,26 @@ export const segmentIntersect = ([x1, y1], [x2, y2], [x3, y3], [x4, y4]) => {
   // lines_intersect
   return true; // lines intersect, return true
 };
+
+// Check if a polygon is self-intersecting (do not deal with co-linear
+// adjacent segments).
+export const isPolygonSelfIntersecting = vertexes => {
+  const n = vertexes.length;
+  // For each polygon edge, check if it intersects with another.
+  return vertexes.find((seg1Start, i) => {
+    const seg1End = vertexes[(i + 1) % n];
+    // Do not check for intersection with adjacent edges. Because there is a
+    // vertex in common, adjacent edges necessarily intersects. However they
+    // only make a polygon self-intersect if co-linear which does not seem
+    // to impact the centroid calculation. Hence it is fine for this project.
+    const maxJ = i === 0 ? n - 1 : n;
+    for (let j = i + 2; j < maxJ; j += 1) {
+      const seg2Start = vertexes[j];
+      const seg2End = vertexes[(j + 1) % n];
+      if (segmentIntersect(seg1Start, seg1End, seg2Start, seg2End)) {
+        return true;
+      }
+    }
+    return false;
+  });
+};
