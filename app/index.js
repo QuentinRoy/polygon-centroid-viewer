@@ -42,12 +42,12 @@ const measures = canvas.append("g")
 const polygonHullCentroidPath = measures.append("path")
   .classed("hull-centroid", true)
   .classed("hidden", true)
-  .attr("d", "M0,0,L10,10M0,10L10,0");
+  .attr("d", "M-5,-5,L5,5M-5,5L5,-5");
 // prettier-ignore
 const polygonCentroidPath = measures.append("path")
   .classed("centroid", true)
   .classed("hidden", true)
-  .attr("d", "M0,0,L10,10M0,10L10,0");
+  .attr("d", "M-5,-5,L5,5M-5,5L5,-5");
 
 // prettier-ignore
 const pathFunction = line()
