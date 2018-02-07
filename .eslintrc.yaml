@@ -9,6 +9,7 @@ plugins:
 rules:
   prettier/prettier:
   - error
+  func-names: 0
 settings:
   import/resolver:
     webpack:

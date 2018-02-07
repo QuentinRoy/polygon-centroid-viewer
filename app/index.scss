@@ -9,7 +9,7 @@ $polygon-fill-color: rgb(238, 238, 238);
 $polygon-stroke-color: rgb(63, 63, 63);
 $polygon-stroke-width: 2;
 
-$centroid-color: rgba(167, 20, 20, 0.8);
+$polygon-centroid-color: rgba(167, 20, 20, 0.8);
 $hull-centroid-color: rgba(20, 167, 64, 0.8);
 
 $add-feed-forward-color: rgba(143, 212, 255, 0.8);
@@ -41,7 +41,7 @@ h1 {
 
 .content,
 .canvas {
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   top: 0;
   position: absolute;
   height: 100%;
@@ -50,7 +50,15 @@ h1 {
   cursor: crosshair;
 }
 
-.vertex {
+.polygon-chart {
+  top: 0;
+  position: absolute;
+  height: 100%;
+  margin: 0;
+  width: 100%;
+}
+
+.polygon-vertexes .vertex {
   r: $vertex-size;
   fill: $vertex-color;
   cursor: pointer;
@@ -66,48 +74,47 @@ h1 {
   }
 }
 
-.area {
+.polygon-area {
   fill: $polygon-fill-color;
   stroke: $polygon-stroke-color;
   stroke-width: $polygon-stroke-width;
 }
 
-.centroid,
+.polygon-centroid,
 .hull-centroid {
-  fill: none;
+  path {
+    fill: none;
+  }
   &.hidden {
     stroke: none;
   }
 }
-
-.centroid {
-  stroke: $centroid-color;
+.polygon-centroid {
+  stroke: $polygon-centroid-color;
 }
-
 .hull-centroid {
   stroke: $hull-centroid-color;
 }
 
-.add-feed-forward {
+.feed-forwards {
   fill: none;
-  stroke: $add-feed-forward-color;
-  stroke-width: $add-feed-forward-stroke-width;
-}
-
-.remove-feed-forward {
-  fill: none;
-  stroke-dasharray: 2, 2;
-  stroke: $remove-feed-forward-color;
-  stroke-width: $remove-feed-forward-stroke-width;
+  .add-vertex {
+    stroke: $add-feed-forward-color;
+    stroke-width: $add-feed-forward-stroke-width;
+  }
+  .remove-vertex {
+    stroke-dasharray: 2, 2;
+    stroke: $remove-feed-forward-color;
+    stroke-width: $remove-feed-forward-stroke-width;
+  }
 }
 
 .legend {
   position: absolute;
   right: 2em;
   bottom: 2em;
-  .cross-icon {
-    width: 0.7em;
-    height: 0.7em;
-    margin-right: 0.3em;
+
+  .legend-text {
+    margin-left: 0.5em;
   }
 }
