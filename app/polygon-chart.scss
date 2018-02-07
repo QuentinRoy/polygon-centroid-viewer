@@ -1,0 +1,91 @@
+$vertex-size: 6;
+$vertex-color: #000;
+$hovered-vertex-size: $vertex-size + 2;
+$hovered-vertex-color: rgb(180, 46, 5);
+$dragged-vertex-size: $hovered-vertex-size;
+$dragged-vertex-color: rgb(65, 124, 161);
+
+$polygon-fill-color: rgba(227, 227, 227, 0.8);
+$polygon-stroke-color: rgb(63, 63, 63);
+$polygon-stroke-width: 2;
+
+$polygon-centroid-color: rgba(167, 20, 20, 0.8);
+$hull-centroid-color: rgba(20, 167, 64, 0.8);
+$bounding-box-centroid-color: rgba(20, 96, 167, 0.8);
+
+$add-feed-forward-color: rgba(143, 212, 255, 0.8);
+$add-feed-forward-stroke-width: 1;
+$remove-feed-forward-color: rgba(211, 76, 76, 0.8);
+$remove-feed-forward-stroke-width: $add-feed-forward-stroke-width;
+
+.polygon-chart {
+  top: 0;
+  position: absolute;
+  height: 100%;
+  margin: 0;
+  width: 100%;
+}
+
+.polygon-vertexes .vertex {
+  r: $vertex-size;
+  fill: $vertex-color;
+  cursor: pointer;
+
+  &:hover {
+    r: $hovered-vertex-size;
+    fill: $hovered-vertex-color;
+  }
+
+  &.dragged {
+    r: $dragged-vertex-size;
+    fill: $dragged-vertex-color;
+  }
+}
+
+.polygon-area {
+  fill: $polygon-fill-color;
+  stroke: $polygon-stroke-color;
+  stroke-width: $polygon-stroke-width;
+}
+
+.polygon-centroid,
+.hull-centroid {
+  path {
+    fill: none;
+  }
+  &.hidden {
+    stroke: none;
+  }
+}
+.polygon-centroid {
+  stroke: $polygon-centroid-color;
+}
+.hull-centroid {
+  stroke: $hull-centroid-color;
+}
+.bounding-box-centroid {
+  stroke: $bounding-box-centroid-color;
+}
+
+.feed-forwards {
+  fill: none;
+  .add-vertex {
+    stroke: $add-feed-forward-color;
+    stroke-width: $add-feed-forward-stroke-width;
+  }
+  .remove-vertex {
+    stroke-dasharray: 2, 2;
+    stroke: $remove-feed-forward-color;
+    stroke-width: $remove-feed-forward-stroke-width;
+  }
+}
+
+.legend {
+  position: absolute;
+  right: 1em;
+  bottom: 1em;
+
+  .legend-text {
+    margin-left: 0.5em;
+  }
+}

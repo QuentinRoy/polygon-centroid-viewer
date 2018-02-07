@@ -1,11 +1,14 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const capitalize = require("capitalize");
+const { version, name } = require("./package.json");
 
 const dirApp = path.join(__dirname, "app");
 const dirDist = path.join(__dirname, "dist");
 
-const appHtmlTitle = "Polygon Centroid Viewer";
+const appHtmlTitle = capitalize.words(name.replace(/-/g, " "));
 const repositoryAddress =
   "https://github.com/QuentinRoy/polygon-centroid-viewer";
 
@@ -26,9 +29,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "index.ejs"),
       title: appHtmlTitle,
+      version,
       repositoryAddress
     }),
-    new ExtractTextPlugin("styles.css")
+    new ExtractTextPlugin("styles.css"),
+    new CopyWebpackPlugin([{ from: "assets", to: "assets" }])
   ],
 
   module: {
