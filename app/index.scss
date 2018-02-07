@@ -11,6 +11,7 @@ $polygon-stroke-width: 2;
 
 $polygon-centroid-color: rgba(167, 20, 20, 0.8);
 $hull-centroid-color: rgba(20, 167, 64, 0.8);
+$bounding-box-centroid-color: rgba(20, 96, 167, 0.8);
 
 $add-feed-forward-color: rgba(143, 212, 255, 0.8);
 $add-feed-forward-stroke-width: 1;
@@ -94,6 +95,9 @@ h1 {
 }
 .hull-centroid {
   stroke: $hull-centroid-color;
+}
+.bounding-box-centroid {
+  stroke: $bounding-box-centroid-color;
 }
 
 .feed-forwards {

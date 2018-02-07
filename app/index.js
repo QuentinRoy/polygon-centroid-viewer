@@ -4,6 +4,7 @@ import polygon from "./graphics/polygon";
 import { createIdGenerator, angle, segmentDist } from "./utils";
 import hullCentroid from "./centroids/hull-centroid";
 import polygonCentroid from "./centroids/polygon-centroid";
+import boundingBoxCentroid from "./centroids/bounding-box-centroid";
 import "./index.scss";
 
 const ADD_OR_REMOVE_FEED_FORWARD_ID = "addOrRemoveFeedForward";
@@ -34,6 +35,11 @@ const recalculateCentroids = () => {
       coords: hullCentroid(vertexesCoords),
       name: "Convex Hull Centroid",
       id: "hull-centroid"
+    },
+    {
+      coords: boundingBoxCentroid(vertexesCoords),
+      name: "Bounding Box Centroid",
+      id: "bounding-box-centroid"
     }
   ];
 };
