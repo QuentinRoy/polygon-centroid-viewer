@@ -1,59 +1,42 @@
 import { select } from "d3-selection";
 import mark from "./mark";
-import { getterSetter } from "../utils";
+import { createGetterAndSetters } from "../utils";
 
-const DEFAULT_CROSS_SIZE = 10;
-const DEFAULT_LABEL_OFFSET = 20;
-
-const legendItem = () => {
-  let label = "";
-  let markFactory = mark().size(DEFAULT_CROSS_SIZE);
-  let labelOffset = DEFAULT_LABEL_OFFSET;
+const legendItem = ({ mark: markFactory = mark() }) => {
+  const config = {
+    label: ""
+  };
 
   // prettier-ignore
   const my = selection => {
     const markSize = markFactory.size();
     const item = selection.append("div")
-      .attr("class", d => d.id)
+      .attr("class", d => d.type)
       .classed("legend-item", true)
 
     item.append("svg")
-      // .attr("viewBox", `0 0 ${markSize} ${markSize}`)
-      .attr("width", markSize)
-      .attr("height", markSize)
-      .call(markFactory)
-      .classed("legend-icon");
+      .attr("viewBox", `-1 -1 ${markSize + 2} ${markSize + 2}`)
+      .attr("width", markSize + 2)
+      .attr("height", markSize + 2)
+      .classed("legend-icon", true)
+      .style("vertical-align", "bottom")
+      .call(markFactory);
 
     item.append("span")
       .classed("legend-text", true)
-      .text(label);
+      .text(config.label);
   };
 
-  my.label = getterSetter({
-    get: () => label,
-    set: newLabel => {
-      label = newLabel;
-    }
+  return createGetterAndSetters({
+    source: config,
+    target: my
   });
-
-  my.markSize = getterSetter({
-    get: () => markFactory.size(),
-    set: newSize => {
-      markFactory = markFactory.size(newSize);
-    }
-  });
-
-  my.labelOffset = getterSetter({
-    get: () => labelOffset,
-    set: newLabelOffset => {
-      labelOffset = newLabelOffset;
-    }
-  });
-  return my;
 };
 
-export default () => {
-  const legendItemFactor = legendItem().label(d => d.name);
+export default ({ mark: markFactory }) => {
+  const legendItemFactory = legendItem({ mark: markFactory }).label(
+    d => d.name
+  );
 
   const chart = selection =>
     selection.each(function(data) {
@@ -63,7 +46,7 @@ export default () => {
       const legendItems = legendG.selectAll(".legend-item")
         .data(data, d => d.id);
 
-      legendItems.enter().call(legendItemFactor);
+      legendItems.enter().call(legendItemFactory);
       legendItems.exit().remove();
     });
   return chart;

@@ -1,16 +1,16 @@
 import { select, mouse, event } from "d3-selection";
+import mark from "./graphics/mark";
 import legend from "./graphics/legend";
 import polygon from "./graphics/polygon";
 import { createIdGenerator, angle, segmentDist } from "./utils";
 import hullCentroid from "./centroids/hull-centroid";
 import polygonCentroid from "./centroids/polygon-centroid";
 import boundingBoxCentroid from "./centroids/bounding-box-centroid";
+import inaccessibilityPole from "./centroids/inaccessibility-pole";
+
 import "./index.scss";
 
 const ADD_OR_REMOVE_FEED_FORWARD_ID = "addOrRemoveFeedForward";
-
-const centroidLegend = legend();
-const polygonChart = polygon();
 
 // Data.
 const data = {
@@ -29,20 +29,51 @@ const recalculateCentroids = () => {
     {
       coords: polygonCentroid(vertexesCoords),
       name: "Polygon Centroid",
-      id: "polygon-centroid"
+      type: "polygon-centroid"
     },
     {
       coords: hullCentroid(vertexesCoords),
       name: "Convex Hull Centroid",
-      id: "hull-centroid"
+      type: "hull-centroid"
     },
     {
       coords: boundingBoxCentroid(vertexesCoords),
       name: "Bounding Box Centroid",
-      id: "bounding-box-centroid"
+      type: "bounding-box-centroid"
+    },
+    {
+      coords: inaccessibilityPole(vertexesCoords),
+      name: "Pole of Inacessibilty",
+      type: "inacessibilty-pole"
     }
   ];
 };
+
+const centroidMark = () =>
+  mark()
+    .size(16)
+    .decoration(d => {
+      switch (d.type) {
+        default:
+          return "none";
+        case "bounding-box-centroid":
+          return "losange";
+        case "inacessibilty-pole":
+          return "circle";
+      }
+    })
+    .rotate(d => {
+      switch (d.type) {
+        default:
+          return 0;
+        case "bounding-box-centroid":
+        case "hull-centroid":
+          return 45;
+      }
+    });
+
+const centroidLegend = legend({ mark: centroidMark().align("start") });
+const polygonChart = polygon({ mark: centroidMark().align("center") });
 
 const updateCanvas = config => {
   canvasSelection.datum(data).call(polygonChart, config);

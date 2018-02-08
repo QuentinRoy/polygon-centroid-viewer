@@ -5,7 +5,7 @@ import { drag } from "d3-drag";
 import mark from "./mark";
 import { noOp } from "../utils";
 
-export default ({ markSize = 10, markOffset = 5 } = {}) => {
+export default ({ mark: markFactory = mark().align("center") } = {}) => {
   // prettier-ignore
   const edgesLine = line()
     .x(d => d.coords[0])
@@ -16,10 +16,6 @@ export default ({ markSize = 10, markOffset = 5 } = {}) => {
     .x(d => d[0])
     .y(d => d[1])
     .curve(curveLinear);
-
-  const markFactory = mark()
-    .size(markSize)
-    .offset(markOffset);
 
   const vertexDrag = drag();
 
@@ -84,10 +80,13 @@ export default ({ markSize = 10, markOffset = 5 } = {}) => {
         const centroids = canvas
           .selectAll(".centroids")
           .selectAll(".centroid")
-            .data(d => d.centroids.filter(c => !!c.coords), d => d.id);
+            .data(
+              d => d.centroids.filter(c => !!c.coords),
+              d => d.id || d.type
+            );
         centroids.enter().append("g")
             .call(markFactory)
-            .attr("class", d => `centroid ${d.id}`)
+            .attr("class", d => `centroid ${d.type}`)
           .merge(centroids)
             .attr("transform", d => `translate(${d.coords})`);
         centroids.exit().remove();

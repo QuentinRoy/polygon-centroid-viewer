@@ -10,8 +10,9 @@ $polygon-stroke-color: rgb(63, 63, 63);
 $polygon-stroke-width: 2;
 
 $polygon-centroid-color: rgba(167, 20, 20, 0.8);
-$hull-centroid-color: rgba(20, 167, 64, 0.8);
+$inaccessibility-pole-color: rgba(20, 167, 64, 0.8);
 $bounding-box-centroid-color: rgba(20, 96, 167, 0.8);
+$hull-centroid-color: rgba(167, 20, 144, 0.8);
 
 $add-feed-forward-color: rgba(143, 212, 255, 0.8);
 $add-feed-forward-stroke-width: 1;
@@ -48,15 +49,13 @@ $remove-feed-forward-stroke-width: $add-feed-forward-stroke-width;
   stroke-width: $polygon-stroke-width;
 }
 
-.polygon-centroid,
-.hull-centroid {
-  path {
+.mark {
+  .mark-cross, .mark-decoration {
     fill: none;
   }
-  &.hidden {
-    stroke: none;
-  }
+  pointer-events: none;
 }
+
 .polygon-centroid {
   stroke: $polygon-centroid-color;
 }
@@ -65,6 +64,9 @@ $remove-feed-forward-stroke-width: $add-feed-forward-stroke-width;
 }
 .bounding-box-centroid {
   stroke: $bounding-box-centroid-color;
+}
+.inacessibilty-pole {
+  stroke: $inaccessibility-pole-color;
 }
 
 .feed-forwards {

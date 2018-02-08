@@ -49,4 +49,37 @@ export const getterSetter = ({ get, set, context }) =>
     return context || this;
   };
 
+export const createGetterAndSetters = ({
+  props,
+  get,
+  set,
+  source = {},
+  target = {}
+} = {}) => {
+  (props || Object.keys(source)).forEach(prop => {
+    // eslint-disable-next-line no-param-reassign
+    target[prop] = getterSetter({
+      get: get ? (...args) => get(prop, ...args) : () => source[prop],
+      set: set
+        ? (...args) => set(prop, ...args)
+        : value => {
+            source[prop] = value; // eslint-disable-line no-param-reassign
+          }
+    });
+  });
+  return target;
+};
+
 export const noOp = () => {};
+
+export const evalD3DataConfig = (val, d) =>
+  typeof val === "function" ? val(d) : val;
+
+export const d3DataConfigProxy = target => d =>
+  new Proxy(target, {
+    get: (t, name) => {
+      const prop = t[name];
+      if (typeof prop === "function") return prop(d);
+      return prop;
+    }
+  });
