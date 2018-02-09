@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/QuentinRoy/polygon-centroid-viewer/compare/v0.5.0...v0.6.0) (2018-02-09)
+
+
+### Features
+
+* clear button ([d02892d](https://github.com/QuentinRoy/polygon-centroid-viewer/commit/d02892d))
+* history management ([496a89e](https://github.com/QuentinRoy/polygon-centroid-viewer/commit/496a89e))
+* save vertexes from a session to another ([27cee94](https://github.com/QuentinRoy/polygon-centroid-viewer/commit/27cee94))
+
+
+
 <a name="0.5.0"></a>
 # [0.5.0](https://github.com/QuentinRoy/polygon-centroid-viewer/compare/v0.4.1...v0.5.0) (2018-02-08)
 
