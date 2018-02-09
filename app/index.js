@@ -3,13 +3,13 @@ import polygonWidget from "./polygon-widget";
 import "./index.scss";
 
 const { getVertexes, setVertexes } = polygonWidget({
-  initVertexes: store.get("polygon-vertexes").vertexes,
+  initVertexes: store.get("polygon-vertexes"),
   onChanged: type => {
     if (type === "set") return;
-    const state = { vertexes: getVertexes() };
-    store.set("polygon-vertexes", state);
+    const vertexes = getVertexes();
+    store.set("polygon-vertexes", vertexes);
     if (type !== "drag") {
-      window.history.pushState(state, null, null);
+      window.history.pushState({ vertexes }, null, null);
     }
   }
 });
