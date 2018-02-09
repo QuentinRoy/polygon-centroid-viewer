@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.7.0"></a>
+# [0.7.0](https://github.com/QuentinRoy/polygon-centroid-viewer/compare/v0.6.3...v0.7.0) (2018-02-09)
+
+
+### Bug Fixes
+
+* avoid internal data leak from set up vertexes ([9ca0033](https://github.com/QuentinRoy/polygon-centroid-viewer/commit/9ca0033))
+
+
+### Features
+
+* import/export ([44f656f](https://github.com/QuentinRoy/polygon-centroid-viewer/commit/44f656f))
+
+
+
 <a name="0.6.3"></a>
 ## [0.6.3](https://github.com/QuentinRoy/polygon-centroid-viewer/compare/v0.6.2...v0.6.3) (2018-02-09)
 
