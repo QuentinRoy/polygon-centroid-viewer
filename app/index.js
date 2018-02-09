@@ -74,7 +74,7 @@ controls.querySelector(".clear").addEventListener("click", () => {
   window.history.pushState(null, null, null);
 });
 
-controls.querySelector(".export").addEventListener("click", () => {
+controls.querySelector(".save").addEventListener("click", () => {
   const csvContent = getVertexes()
     .map(v => v.join(","))
     .join("\n");
@@ -85,7 +85,7 @@ const hiddenImportInput = controls.querySelector(
   `.${HIDDEN_IMPORT_INPUT_CLASS}`
 );
 
-controls.querySelector(".import").addEventListener("click", () => {
+controls.querySelector(".load").addEventListener("click", () => {
   hiddenImportInput.click();
 });
 

@@ -106,12 +106,12 @@ $button-active-color: lighten($button-color, 50%);
       background-image: url("./control-buttons/trash.svg");
       color: transparent;
     }
-    &.import {
-      background-image: url("./control-buttons/import.svg");
+    &.load {
+      background-image: url("./control-buttons/load.svg");
       color: transparent;
     }
-    &.export {
-      background-image: url("./control-buttons/export.svg");
+    &.save {
+      background-image: url("./control-buttons/save.svg");
       color: transparent;
     }
   }
