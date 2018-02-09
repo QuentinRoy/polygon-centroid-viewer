@@ -12,7 +12,7 @@ const createVertexFactory = () => {
   const getNewVertexId = createIdGenerator();
   return coords => ({
     id: getNewVertexId(),
-    coords,
+    coords: [...coords],
     hovered: false,
     dragged: false
   });
