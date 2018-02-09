@@ -266,6 +266,7 @@ export default ({
     setVertexes(vertexes) {
       data.vertexes = vertexes.map(createNewVertex);
       recalculateCentroids();
+      clearAddOrRemoveFeedForward();
       updateCanvas();
       onChanged("set");
     }

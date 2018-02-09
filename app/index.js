@@ -3,12 +3,43 @@ import polygonWidget from "./polygon-widget";
 import "./index.scss";
 
 const { getVertexes, setVertexes } = polygonWidget({
-  initVertexes: store.get("polygon-vertexes"),
-  onChanged: () => {
-    store.set("polygon-vertexes", getVertexes());
+  initVertexes: store.get("polygon-vertexes").vertexes,
+  onChanged: type => {
+    if (type === "set") return;
+    const state = { vertexes: getVertexes() };
+    store.set("polygon-vertexes", state);
+    if (type !== "drag") {
+      window.history.pushState(state, null, null);
+    }
   }
 });
 
-document
-  .querySelector(".clear")
-  .addEventListener("click", () => setVertexes([]));
+document.querySelector(".clear").addEventListener("click", () => {
+  setVertexes([]);
+  store.clear();
+  window.history.pushState(null, null, null);
+});
+
+window.addEventListener("popstate", e => {
+  setVertexes((e.state && e.state.vertexes) || []);
+});
+
+window.addEventListener("keydown", e => {
+  if (e.key === "z") {
+    if (
+      ((e.metaKey && !e.ctrlKey && navigator.platform === "MacIntel") ||
+        (e.ctrlKey &&
+          !e.metaKey &&
+          !e.altKey &&
+          navigator.platform !== "MacIntel")) &&
+      !e.altKey
+    ) {
+      if (e.shiftKey) {
+        window.history.forward();
+      } else {
+        window.history.back();
+      }
+      e.preventDefault();
+    }
+  }
+});
