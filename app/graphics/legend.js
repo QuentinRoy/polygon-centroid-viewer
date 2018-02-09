@@ -1,6 +1,7 @@
 import { select } from "d3-selection";
 import mark from "./mark";
 import { createGetterAndSetters } from "../utils";
+import "./legend.scss";
 
 const legendItem = ({ mark: markFactory = mark() }) => {
   const config = {

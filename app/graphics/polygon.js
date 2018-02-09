@@ -4,6 +4,7 @@ import { drag } from "d3-drag";
 // import { drag } from "d3-drag";
 import mark from "./mark";
 import { noOp } from "../utils";
+import "./polygon.scss";
 
 export default ({ mark: markFactory = mark().align("center") } = {}) => {
   // prettier-ignore

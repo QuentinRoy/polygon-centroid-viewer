@@ -1,5 +1,3 @@
-@import "./github-corner";
-
 // Apply a natural box layout model to all elements
 // but allowing components to change
 // http://www.paulirish.com/2012/box-sizing-border-box-ftw/
@@ -20,7 +18,7 @@ html {
 
 h1 {
   text-align: left;
-  margin: .5em 1em;
+  margin: 0.5em 1em;
   display: inline-block;
 }
 
@@ -35,4 +33,39 @@ h1 {
   cursor: crosshair;
 }
 
-@import "./polygon-chart";
+.legend {
+  position: absolute;
+  right: 1em;
+  bottom: 1em;
+}
+
+.github-corner {
+  &:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+
+    @media (max-width: 500px) {
+      animation: none;
+    }
+  }
+
+  .octo-arm {
+    @media (max-width: 500px) {
+      animation: octocat-wave 560ms ease-in-out;
+    }
+  }
+}
+
+@keyframes octocat-wave {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  20%,
+  60% {
+    transform: rotate(-25deg);
+  }
+  40%,
+  80% {
+    transform: rotate(10deg);
+  }
+}

@@ -1,6 +1,7 @@
 import { select } from "d3-selection";
 import { line, curveLinearClosed } from "d3-shape";
 import { createGetterAndSetters, d3DataConfigProxy } from "../utils";
+import "./mark.scss";
 
 export default () => {
   const config = {
