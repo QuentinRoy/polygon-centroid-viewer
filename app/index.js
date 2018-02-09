@@ -16,7 +16,7 @@ const { getVertexes, setVertexes } = polygonWidget({
 
 document.querySelector(".clear").addEventListener("click", () => {
   setVertexes([]);
-  store.clear();
+  store.remove("polygon-vertexes");
   window.history.pushState(null, null, null);
 });
 
