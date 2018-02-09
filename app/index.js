@@ -63,6 +63,7 @@ controls.innerHTML += `
     class="${HIDDEN_IMPORT_INPUT_CLASS}"
     type="file"
     name="import"
+    accept=".csv,text/csv"
     style="display:none;"
   />
 `;
@@ -118,6 +119,11 @@ hiddenImportInput.addEventListener("change", () => {
       window.history.pushState({ vertexes }, null, null);
     })
     .catch(e => {
-      swal("Oops...", e.message, "error");
+      swal({
+        title: "Load Error",
+        text: e.message,
+        type: "error",
+        showConfirmButton: false
+      });
     });
 });
