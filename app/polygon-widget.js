@@ -21,7 +21,8 @@ const createVertexFactory = () => {
 export default ({
   initVertexes = [],
   canvasNode = ".canvas",
-  legendNode = ".legend"
+  legendNode = ".legend",
+  onChanged = () => {}
 } = {}) => {
   const ADD_OR_REMOVE_FEED_FORWARD_ID = "addOrRemoveFeedForward";
 
@@ -223,6 +224,7 @@ export default ({
     setUpRemoveFeedForward(newVertex);
     recalculateCentroids();
     updateCanvas();
+    onChanged("add");
   });
 
   polygonChart.on("vertexClick", clickedVertex => {
@@ -234,6 +236,7 @@ export default ({
     // Stop the propagation to avoid a canvas click event (that would add a new
     // vertex).
     event.stopPropagation();
+    onChanged("remove");
   });
 
   polygonChart.on("vertexDragStart vertexDrag", vertex => {
@@ -242,6 +245,7 @@ export default ({
     vertex.coords = [event.x, event.y]; // eslint-disable-line no-param-reassign
     recalculateCentroids();
     updateCanvas();
+    onChanged("drag");
   });
 
   polygonChart.on("vertexDragEnd", vertex => {
@@ -250,9 +254,14 @@ export default ({
     setUpRemoveFeedForward(vertex);
     recalculateCentroids();
     updateCanvas();
+    onChanged("dragEnd");
   });
 
   recalculateCentroids();
   updateCanvas();
   updateLegend();
+
+  return {
+    getData: () => data.vertexes.map(v => [...v.coords])
+  };
 };
