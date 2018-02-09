@@ -90,6 +90,7 @@ controls.querySelector(".import").addEventListener("click", () => {
 });
 
 hiddenImportInput.addEventListener("change", () => {
+  if (hiddenImportInput.files.length === 0) return;
   new Promise(resolve => {
     const reader = new FileReader();
     reader.addEventListener(
@@ -125,5 +126,8 @@ hiddenImportInput.addEventListener("change", () => {
         type: "error",
         showConfirmButton: false
       });
+    })
+    .then(() => {
+      hiddenImportInput.value = "";
     });
 });
