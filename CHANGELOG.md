@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.1"></a>
+## [0.6.1](https://github.com/QuentinRoy/polygon-centroid-viewer/compare/v0.6.0...v0.6.1) (2018-02-09)
+
+
+### Bug Fixes
+
+* fix first page load ([f38f61d](https://github.com/QuentinRoy/polygon-centroid-viewer/commit/f38f61d))
+
+
+
 <a name="0.6.0"></a>
 # [0.6.0](https://github.com/QuentinRoy/polygon-centroid-viewer/compare/v0.5.0...v0.6.0) (2018-02-09)
 
