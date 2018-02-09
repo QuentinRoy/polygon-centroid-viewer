@@ -69,3 +69,42 @@ h1 {
     transform: rotate(10deg);
   }
 }
+
+$button-size: 40px;
+$button-color: #393939;
+$button-hovered-color: lighten($button-color, 25%);
+$button-active-color: lighten($button-color, 50%);
+.controls {
+  position: absolute;
+  bottom: 0.5em;
+  width: 100%;
+  pointer-events: none;
+  text-align: center;
+
+  .button {
+    pointer-events: auto;
+    background-size: ($button-size - 12px) ($button-size - 12px);
+    background-repeat: no-repeat;
+    color: transparent;
+    cursor: pointer;
+    border: none;
+    width: $button-size;
+    height: $button-size;
+    border-radius: $button-size;
+    background-color: $button-color;
+    background-position: center;
+    &:hover {
+      background-color: $button-hovered-color;
+    }
+    &:active {
+      background-color: $button-active-color;
+    }
+    &:focus {
+      outline: 0;
+    }
+  }
+
+  .button.clear {
+    background-image: url("./control-buttons/trash.svg");
+  }
+}

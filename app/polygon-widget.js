@@ -32,7 +32,7 @@ export default ({
   const data = {
     hoveredVertex: null,
     feedForwards: [],
-    vertexes: [...initVertexes.map(createNewVertex)],
+    vertexes: initVertexes.map(createNewVertex),
     centroids: []
   };
 
@@ -262,6 +262,12 @@ export default ({
   updateLegend();
 
   return {
-    getData: () => data.vertexes.map(v => [...v.coords])
+    getVertexes: () => data.vertexes.map(v => [...v.coords]),
+    setVertexes(vertexes) {
+      data.vertexes = vertexes.map(createNewVertex);
+      recalculateCentroids();
+      updateCanvas();
+      onChanged("set");
+    }
   };
 };
