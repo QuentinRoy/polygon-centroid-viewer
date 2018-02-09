@@ -1,5 +1,8 @@
 import store from "store";
+import { csvParse } from "d3-dsv";
 import polygonWidget from "./polygon-widget";
+import { downloadTextFile } from "./utils";
+import swal from "sweetalert2";
 import "./index.scss";
 
 const STORE_VERTEX_KEY = "polygon-vertexes";
@@ -52,8 +55,69 @@ window.addEventListener("keydown", e => {
   }
 });
 
-document.querySelector(".clear").addEventListener("click", () => {
+const controls = document.querySelector(".controls");
+const HIDDEN_IMPORT_INPUT_CLASS = "hidden-import-input";
+
+controls.innerHTML += `
+  <input
+    class="${HIDDEN_IMPORT_INPUT_CLASS}"
+    type="file"
+    name="import"
+    style="display:none;"
+  />
+`;
+
+controls.querySelector(".clear").addEventListener("click", () => {
   setVertexes([]);
   store.remove(STORE_VERTEX_KEY);
   window.history.pushState(null, null, null);
+});
+
+controls.querySelector(".export").addEventListener("click", () => {
+  const csvContent = getVertexes()
+    .map(v => v.join(","))
+    .join("\n");
+  downloadTextFile(`x,y\n${csvContent}`, "polygon.csv");
+});
+
+const hiddenImportInput = controls.querySelector(
+  `.${HIDDEN_IMPORT_INPUT_CLASS}`
+);
+
+controls.querySelector(".import").addEventListener("click", () => {
+  hiddenImportInput.click();
+});
+
+hiddenImportInput.addEventListener("change", () => {
+  new Promise(resolve => {
+    const reader = new FileReader();
+    reader.addEventListener(
+      "load",
+      () => {
+        resolve(reader.result);
+      },
+      { once: true }
+    );
+    reader.readAsText(hiddenImportInput.files[0]);
+  })
+    .then(file => {
+      const vertexes = csvParse(file).map(({ x, y }) => {
+        const nbX = +x;
+        const nbY = +y;
+        if (Number.isNaN(nbX) || Number.isNaN(nbY)) {
+          throw new Error(
+            "Invalid polygon format: file must be a csv file of vertexes with an x and a y column, both containing numbers only."
+          );
+        }
+        return [+x, +y];
+      });
+      setVertexes(vertexes || []);
+      // Set up local storage (for refresh and next page load).
+      store.set(STORE_VERTEX_KEY, vertexes);
+      // Set up history.
+      window.history.pushState({ vertexes }, null, null);
+    })
+    .catch(e => {
+      swal("Oops...", e.message, "error");
+    });
 });

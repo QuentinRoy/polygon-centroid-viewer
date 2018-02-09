@@ -70,7 +70,7 @@ h1 {
   }
 }
 
-$button-size: 40px;
+$button-size: 50px;
 $button-color: #393939;
 $button-hovered-color: lighten($button-color, 25%);
 $button-active-color: lighten($button-color, 50%);
@@ -83,9 +83,8 @@ $button-active-color: lighten($button-color, 50%);
 
   .button {
     pointer-events: auto;
-    background-size: ($button-size - 12px) ($button-size - 12px);
+    background-size: ($button-size - 20px) ($button-size - 20px);
     background-repeat: no-repeat;
-    color: transparent;
     cursor: pointer;
     border: none;
     width: $button-size;
@@ -93,6 +92,7 @@ $button-active-color: lighten($button-color, 50%);
     border-radius: $button-size;
     background-color: $button-color;
     background-position: center;
+    margin: 0 .3em;
     &:hover {
       background-color: $button-hovered-color;
     }
@@ -102,9 +102,17 @@ $button-active-color: lighten($button-color, 50%);
     &:focus {
       outline: 0;
     }
-  }
-
-  .button.clear {
-    background-image: url("./control-buttons/trash.svg");
+    &.clear {
+      background-image: url("./control-buttons/trash.svg");
+      color: transparent;
+    }
+    &.import {
+      background-image: url("./control-buttons/import.svg");
+      color: transparent;
+    }
+    &.export {
+      background-image: url("./control-buttons/export.svg");
+      color: transparent;
+    }
   }
 }
