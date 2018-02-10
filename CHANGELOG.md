@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.8.0"></a>
+# [0.8.0](https://github.com/QuentinRoy/polygon-centroid-viewer/compare/v0.7.0...v0.8.0) (2018-02-10)
+
+
+### Bug Fixes
+
+* fix the very first action not being undo-able ([c748785](https://github.com/QuentinRoy/polygon-centroid-viewer/commit/c748785))
+* make sure the same file can be loaded twice in a row ([5dd7564](https://github.com/QuentinRoy/polygon-centroid-viewer/commit/5dd7564))
+
+
+### Features
+
+* change icons ([3cd3031](https://github.com/QuentinRoy/polygon-centroid-viewer/commit/3cd3031))
+* restrict the type of files that can be loaded to csv ([cdc0ea5](https://github.com/QuentinRoy/polygon-centroid-viewer/commit/cdc0ea5))
+* show labels on button hover ([6468b16](https://github.com/QuentinRoy/polygon-centroid-viewer/commit/6468b16))
+
+
+
 <a name="0.7.0"></a>
 # [0.7.0](https://github.com/QuentinRoy/polygon-centroid-viewer/compare/v0.6.3...v0.7.0) (2018-02-09)
 
