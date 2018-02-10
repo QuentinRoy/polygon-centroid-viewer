@@ -1,4 +1,4 @@
-import store from "store";
+import store from "store/dist/store.modern";
 import { csvParse } from "d3-dsv";
 import swal from "sweetalert2";
 import polygonWidget from "./polygon-widget";
