@@ -27,7 +27,7 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "index.ejs"),
+      template: path.join(__dirname, "index.pug"),
       title: appHtmlTitle,
       version,
       repositoryAddress
@@ -54,10 +54,10 @@ module.exports = {
         })
       },
 
-      // EJS
+      // Pug
       {
-        test: /\.ejs$/,
-        loader: "ejs-loader"
+        test: /\.pug/,
+        loader: "pug-loader"
       },
 
       // IMAGES

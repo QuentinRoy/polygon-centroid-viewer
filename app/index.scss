@@ -3,6 +3,7 @@
 // http://www.paulirish.com/2012/box-sizing-border-box-ftw/
 html {
   box-sizing: border-box;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 *,
 *:before,
@@ -24,7 +25,6 @@ h1 {
 
 .content,
 .canvas {
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   top: 0;
   position: absolute;
   height: 100%;
@@ -82,37 +82,72 @@ $button-active-color: lighten($button-color, 50%);
   text-align: center;
 
   .button {
+    position: relative;
+    display: inline-block;
+    margin: 0 0.3em;
+    width: $button-size;
+    height: $button-size;
+    border-radius: $button-size;
+  }
+
+  .button-button {
     pointer-events: auto;
     background-size: ($button-size - 20px) ($button-size - 20px);
     background-repeat: no-repeat;
     cursor: pointer;
     border: none;
-    width: $button-size;
-    height: $button-size;
+    width: 100%;
+    height: 100%;
     border-radius: $button-size;
     background-color: $button-color;
     background-position: center;
-    margin: 0 .3em;
+
     &:hover {
       background-color: $button-hovered-color;
     }
+
     &:active {
       background-color: $button-active-color;
     }
     &:focus {
       outline: 0;
     }
-    &.clear {
-      background-image: url("./control-buttons/trash.svg");
-      color: transparent;
+  }
+
+  .clear .button-button {
+    background-image: url("./control-buttons/trash.svg");
+    color: transparent;
+    font-size: 0;
+  }
+  .load .button-button {
+    background-image: url("./control-buttons/load.svg");
+    color: transparent;
+    font-size: 0;
+  }
+  .save .button-button {
+    background-image: url("./control-buttons/save.svg");
+    color: transparent;
+    font-size: 0;
+  }
+
+  .button-label-wrapper {
+    opacity: 0;
+    transition: 200ms;
+    position: absolute;
+    text-align: center;
+    height: 0;
+    width: 200px;
+    top: -1.5em;
+    left: -200px / 2 + $button-size / 2;
+    .button-label {
+      padding: 2px 8px;
+      border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0.9);
     }
-    &.load {
-      background-image: url("./control-buttons/load.svg");
-      color: transparent;
-    }
-    &.save {
-      background-image: url("./control-buttons/save.svg");
-      color: transparent;
-    }
+  }
+
+  .button:hover .button-label-wrapper {
+    transition: 100ms;
+    opacity: 1;
   }
 }
