@@ -1,15 +1,17 @@
 import store from "store";
 import { csvParse } from "d3-dsv";
+import swal from "sweetalert2";
 import polygonWidget from "./polygon-widget";
 import { downloadTextFile } from "./utils";
-import swal from "sweetalert2";
 import "./index.scss";
 
 const STORE_VERTEX_KEY = "polygon-vertexes";
 
+const initVertexes = store.get(STORE_VERTEX_KEY);
+
 const { getVertexes, setVertexes } = polygonWidget({
   // Init the vertexes using the local storage.
-  initVertexes: store.get(STORE_VERTEX_KEY),
+  initVertexes,
   // Handle vertexes change.
   onChanged: type => {
     if (type === "set") return;
@@ -22,6 +24,10 @@ const { getVertexes, setVertexes } = polygonWidget({
     }
   }
 });
+
+if (initVertexes) {
+  window.history.replaceState({ vertexes: initVertexes }, null, null);
+}
 
 // Handle history navigation.
 window.addEventListener("popstate", e => {
