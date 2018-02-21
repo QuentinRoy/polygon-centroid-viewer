@@ -9,6 +9,8 @@ A small application to create polygons and view their centroids.
 ## Install
 
 ```
+git clone git@github.com:QuentinRoy/polygon-centroid-viewer.git
+cd polygon-centroid-viewer
 npm install
 ```
 
@@ -25,7 +27,3 @@ npm run build
 ```
 
 Creates the `dist` repository.
-
-## Warning
-
-Centroids of self-intersecting polygons are wrong.
