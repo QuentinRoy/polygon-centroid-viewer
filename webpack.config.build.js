@@ -6,6 +6,7 @@ const webpackConfig = require("./webpack.config");
 
 module.exports = webpackMerge(webpackConfig, {
   devtool: "source-map",
+  mode: "production",
   plugins: [
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify("production")

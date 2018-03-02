@@ -27,7 +27,7 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "index.pug"),
+      template: path.join(__dirname, "index.ejs"),
       title: appHtmlTitle,
       version,
       repositoryAddress
@@ -52,12 +52,6 @@ module.exports = {
           fallback: "style-loader",
           use: ["css-loader", "postcss-loader", "sass-loader"]
         })
-      },
-
-      // Pug
-      {
-        test: /\.pug/,
-        loader: "pug-loader"
       },
 
       // IMAGES
