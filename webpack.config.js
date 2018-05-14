@@ -1,6 +1,6 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const capitalize = require("capitalize");
 const { version, name } = require("./package.json");
@@ -32,7 +32,7 @@ module.exports = {
       version,
       repositoryAddress
     }),
-    new ExtractTextPlugin("styles.css"),
+    new MiniCssExtractPlugin({ filename: "styles.css" }),
     new CopyWebpackPlugin([{ from: "assets", to: "assets" }])
   ],
 
@@ -48,10 +48,12 @@ module.exports = {
       // CSS / SASS
       {
         test: /\.s?css/,
-        use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: ["css-loader", "postcss-loader", "sass-loader"]
-        })
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          "postcss-loader",
+          "sass-loader"
+        ]
       },
 
       // IMAGES
