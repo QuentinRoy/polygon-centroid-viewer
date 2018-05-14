@@ -210,8 +210,10 @@ export default ({
       updateCanvas({ partial: "feedForwards" });
     })
     .on("vertexMouseleave", () => {
-      data.hoveredVertex.hovered = false;
-      data.hoveredVertex = null;
+      if (data.hoveredVertex) {
+        data.hoveredVertex.hovered = false;
+        data.hoveredVertex = null;
+      }
       setUpAddFeedForward(mouse(canvasSelection.node()));
       updateCanvas({ partial: "feedForwards" });
     });
