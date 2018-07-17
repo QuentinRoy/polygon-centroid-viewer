@@ -41,7 +41,7 @@ export const createIdGenerator = () => {
 // Creates a getter/setter function for reusable d3 components.
 // Called without arguments, the function acts as a getter, called with at least
 // one argument, it acts as a setter.
-// When used as a getter, it returns its context or this.
+// When used as a setter, it returns its context or this.
 export const getterSetter = ({ get, set, context }) =>
   function getSet(...args) {
     if (args.length === 0) return get();
