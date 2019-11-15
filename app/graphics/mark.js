@@ -45,7 +45,7 @@ export default () => {
         );
 
       markSelect.selectAll(".mark-cross")
-        .attr("d", `M0,${halfSize},l${size},0M${halfSize},0l0,${size}`);
+        .attr("d", `M0,${halfSize}l${size},0M${halfSize},0l0,${size}`);
 
       const decoSelection = markSelect.selectAll(".mark-decoration");
       if (
