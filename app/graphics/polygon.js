@@ -1,10 +1,11 @@
 import { select } from "d3-selection";
 import { line, curveLinearClosed, curveLinear } from "d3-shape";
 import { drag } from "d3-drag";
-// import { drag } from "d3-drag";
 import mark from "./mark";
 import { noOp } from "../utils";
 import "./polygon.scss";
+
+const verticesSize = 6;
 
 export default ({ mark: markFactory = mark().align("center") } = {}) => {
   // prettier-ignore
@@ -66,6 +67,7 @@ export default ({ mark: markFactory = mark().align("center") } = {}) => {
             .data(d => d.vertexes, d => d.id);
         vertexes.enter().append("circle")
             .classed("vertex", true)
+            .attr("r", verticesSize)
           .merge(vertexes)
             .attr("cx", d => d.coords[0])
             .attr("cy", d => d.coords[1])

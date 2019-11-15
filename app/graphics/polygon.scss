@@ -28,7 +28,6 @@ $remove-feed-forward-stroke-width: $add-feed-forward-stroke-width;
 }
 
 .polygon-vertexes .vertex {
-  r: $vertex-size;
   fill: $vertex-color;
   cursor: pointer;
 
@@ -38,7 +37,6 @@ $remove-feed-forward-stroke-width: $add-feed-forward-stroke-width;
   }
 
   &.dragged {
-    r: $dragged-vertex-size;
     fill: $dragged-vertex-color;
   }
 }
@@ -50,7 +48,8 @@ $remove-feed-forward-stroke-width: $add-feed-forward-stroke-width;
 }
 
 .mark {
-  .mark-cross, .mark-decoration {
+  .mark-cross,
+  .mark-decoration {
     fill: none;
   }
   pointer-events: none;
