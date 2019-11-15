@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.8.5"></a>
+## [0.8.5](https://github.com/QuentinRoy/polygon-centroid-viewer/compare/v0.8.4...v0.8.5) (2019-11-15)
+
+
+### Bug Fixes
+
+* fix centroid crosses not showing up with Firefox ([7fa2c5a](https://github.com/QuentinRoy/polygon-centroid-viewer/commit/7fa2c5a))
+* fix vertices not showing with Firefox ([45c6858](https://github.com/QuentinRoy/polygon-centroid-viewer/commit/45c6858))
+
+
+
 <a name="0.8.4"></a>
 ## [0.8.4](https://github.com/QuentinRoy/polygon-centroid-viewer/compare/v0.8.3...v0.8.4) (2019-11-15)
 
