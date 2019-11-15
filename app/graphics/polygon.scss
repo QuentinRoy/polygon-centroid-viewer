@@ -1,8 +1,5 @@
-$vertex-size: 6;
 $vertex-color: #000;
-$hovered-vertex-size: $vertex-size + 2;
 $hovered-vertex-color: rgb(180, 46, 5);
-$dragged-vertex-size: $hovered-vertex-size;
 $dragged-vertex-color: rgb(65, 124, 161);
 
 $polygon-fill-color: rgba(227, 227, 227, 0.8);
@@ -32,7 +29,6 @@ $remove-feed-forward-stroke-width: $add-feed-forward-stroke-width;
   cursor: pointer;
 
   &:hover {
-    r: $hovered-vertex-size;
     fill: $hovered-vertex-color;
   }
 
